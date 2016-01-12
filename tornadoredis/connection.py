@@ -89,6 +89,11 @@ class Connection(object):
                 callback()
 
     def disconnect(self):
+        callbacks = self.read_callbacks
+        self.read_callbacks = set()
+        for callback in callbacks:
+            callback()
+
         if self._stream:
             s = self._stream
             self._stream = None
